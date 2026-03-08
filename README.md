@@ -1,92 +1,157 @@
-# Gemstore Admin
+<div align="center">
 
-Admin dashboard frontend for moderating the Gemstore marketplace.
+# 💎 GemStore Admin
 
-## Tech Stack
+### Marketplace Moderation Dashboard
 
-- React 19
-- Vite 7
-- React Icons
-- Sonner (toast notifications)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat-square&logo=vite)
 
-## Features
+The React + Vite admin dashboard for moderating the **GemStore** marketplace — manage users, listings, and reports from a single interface.
 
-- Admin login with JWT token storage in `localStorage`
-- Dashboard statistics overview
-- User management
-  - Search users
-  - Filter by status
-  - Update user status and role
-- Listing moderation
-  - Search listings
-  - Filter by status
-  - Update listing status
-- Report management
-  - Filter by report status/type
-  - Review reports
-  - Set resolution status, action taken, and admin notes
+[Related Repos](#-related-repositories) · [Getting Started](#-getting-started) · [API Reference](#-api-endpoints)
 
-## Project Structure
+</div>
 
-```text
+---
+
+## 📦 Related Repositories
+
+| Repository | Description |
+|---|---|
+| [gemstore-backend](https://github.com/mnmmusharraf/gemstore-backend) | Spring Boot backend API |
+| [gemstore-web](https://github.com/mnmmusharraf/gemstore-web) | React user-facing application |
+| [gemstore-ml-service](https://github.com/mnmmusharraf/gemstore-ml-service) | FastAPI ML price prediction service |
+
+---
+
+## 🛠 Tech Stack
+
+| Category | Technology |
+|---|---|
+| Framework | React 19 + Vite 7 |
+| Icons | React Icons |
+| Notifications | Sonner |
+
+---
+
+## ✨ Features
+
+### Auth
+- Admin login with JWT
+- Non-admin users denied access
+- Auto-logout and redirect on `401`
+
+### Dashboard
+- Marketplace statistics overview
+
+### User Management
+- Search users by name or email
+- Filter by status
+- Update user status and role
+
+### Listing Moderation
+- Search listings
+- Filter by status
+- Update listing status
+
+### Report Management
+- Filter reports by status and type
+- Review individual reports
+- Set resolution status, action taken, and admin notes
+- Pending report count badge
+
+---
+
+## 📁 Project Structure
+
+```
 src/
-  api/            # API calls (auth, admin, reports)
-  components/     # Shared UI components/layout
-  hooks/          # Custom hooks (admin auth)
-  pages/          # Dashboard, users, listings, reports, login
-  styles/         # CSS modules for admin and login UI
+├── api/          # API clients (auth, admin, reports)
+├── components/   # Shared UI components and layout
+├── hooks/        # Custom hooks (admin auth)
+├── pages/        # Dashboard, Users, Listings, Reports, Login
+└── styles/       # CSS modules for admin and login UI
 ```
 
-## Prerequisites
+---
 
-- Node.js 18+ (recommended)
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
 - npm
-- Running Gemstore backend API
+- [GemStore Backend](https://github.com/mnmmusharraf/gemstore-backend) running on `http://localhost:8080`
 
-## Setup
+---
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/mnmmusharraf/gemstore-admin
+cd gemstore-admin
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
+```
+
+### 3. Start the dev server
+
+```bash
 npm run dev
 ```
 
-App runs on Vite default URL (usually `http://localhost:5173`).
+Open the URL printed by Vite — usually `http://localhost:5173`.
 
-## Available Scripts
+---
 
-- `npm run dev` - start development server
-- `npm run build` - create production build
-- `npm run preview` - preview production build
-- `npm run lint` - run ESLint
+## 📜 Available Scripts
 
-## Backend/API Configuration
+| Script | Description |
+|---|---|
+| `npm run dev` | Start local development server |
+| `npm run build` | Create production build |
+| `npm run preview` | Preview production build locally |
+| `npm run lint` | Run ESLint |
 
-Base URL is currently hardcoded in:
+---
 
-- `src/api/config.js`
+## ⚙️ Configuration
+
+The backend URL is hardcoded in `src/api/config.js`:
 
 ```js
 export const API_BASE_URL = 'http://localhost:8080';
 ```
 
-Update this value to match your backend environment.
+Update this value to match your backend environment before building.
 
-## Authentication Notes
+---
 
-- Auth token is stored as `adminToken` in `localStorage`
-- Non-admin users are denied access
-- `401` responses clear token and redirect to login
+## 🔒 Auth Notes
 
-## Main API Endpoints Used
+- JWT token is stored in `localStorage` under the key `adminToken`
+- Only users with the `ADMIN` role can access the dashboard
+- On any `401` response, the token is cleared and the user is redirected to login
 
-- `POST /api/auth/login`
-- `GET /api/auth/me`
-- `GET /api/admin/stats`
-- `GET /api/admin/users`
-- `PATCH /api/admin/users/{id}/status/{status}`
-- `PATCH /api/admin/users/{id}/role/{role}`
-- `GET /api/admin/listings`
-- `PATCH /api/admin/listings/{id}/status/{status}`
-- `GET /api/v1/reports/admin`
-- `PUT /api/v1/reports/admin/{id}`
-- `GET /api/v1/reports/admin/pending-count`
+---
+
+## 🔗 API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/auth/login` | Admin login |
+| GET | `/api/auth/me` | Get current admin user |
+| GET | `/api/admin/stats` | Dashboard statistics |
+| GET | `/api/admin/users` | List all users |
+| PATCH | `/api/admin/users/{id}/status/{status}` | Update user status |
+| PATCH | `/api/admin/users/{id}/role/{role}` | Update user role |
+| GET | `/api/admin/listings` | List all listings |
+| PATCH | `/api/admin/listings/{id}/status/{status}` | Update listing status |
+| GET | `/api/v1/reports/admin` | List all reports |
+| PUT | `/api/v1/reports/admin/{id}` | Resolve a report |
+| GET | `/api/v1/reports/admin/pending-count` | Get pending report count |
